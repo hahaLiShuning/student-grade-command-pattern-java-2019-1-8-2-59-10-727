@@ -4,6 +4,8 @@ import com.tw.model.Student;
 import com.tw.service.StudentService;
 import com.tw.utils.TextFormatter;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Command {
@@ -72,6 +74,15 @@ public class Command {
     }
 
     public void processGennerateReport(String msg) {
-
+        System.out.print(msg);
+        String input = cliReader.nextLine();
+        String[] nums = input.split(", ");
+        List<Student> students = this.studentService.findByNums(Arrays.asList(nums));
+        if (students.size() > 0) {
+            String report = formatter.formatReport(students);
+            System.out.println(report);
+        } else {
+            processGennerateReport(REPORT_ERROR_CONTENT);
+        }
     }
 }
