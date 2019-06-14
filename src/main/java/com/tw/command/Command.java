@@ -1,10 +1,17 @@
 package com.tw.command;
 
+import com.tw.model.Student;
+import com.tw.service.StudentService;
+import com.tw.utils.TextFormatter;
+
 import java.util.Scanner;
 
 public class Command {
 
     public static Scanner cliReader = new Scanner(System.in);
+
+    private static StudentService studentService;
+    private static TextFormatter formatter;
 
     private static final String MAIN_CONTENT = "***********\n" +
             "1. 添加学生\n" +
@@ -17,6 +24,11 @@ public class Command {
     private static final String ADD_ERROR_CONTENT = "请按正确的格式输入（格式：姓名, 学号, 学科: 成绩, ...）\n";
     private static final String GEN_GRADE_REPORT_CONTENT = "请输入要打印的学生的学号（格式： 学号, 学号,...），按回车提交：\n";
     private static final String REPORT_ERROR_CONTENT = "请按正确的格式输入要打印的学生的学号（格式： 学号, 学号,...），按回车提交：\n";
+
+    public Command() {
+        this.studentService = new StudentService();
+        this.formatter = new TextFormatter();
+    }
 
     public void init() {
         while (true) {
@@ -49,6 +61,14 @@ public class Command {
     }
 
     public void processAddStu(String msg) {
+        System.out.print(msg);
+        String input = cliReader.nextLine();
+        Student student = formatter.formatStudent(input);
+        if (student != null) {
+            studentService.addStudent(student);
+        } else {
+            processAddStu(ADD_ERROR_CONTENT);
+        }
     }
 
     public void processGennerateReport(String msg) {
