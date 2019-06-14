@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TextFormatter {
-    private static final String STU_REGREX = "([^，]+)，(\\w+)，数学：(\\d+(\\.\\d+)?)，语文：(\\d+(\\.\\d+)?)，英语：(\\d+(\\.\\d+)?)，编程：(\\d+(\\.\\d+)?)";
+    private static final String STU_REGREX = "([^，]+)，([^，]+)，([^，]+)，数学：(\\d+(\\.\\d+)?)，语文：(\\d+(\\.\\d+)?)，英语：(\\d+(\\.\\d+)?)，编程：(\\d+(\\.\\d+)?)";
     private static final String reportText = "成绩单\n" +
             "姓名|数学|语文|英语|编程|平均分|总分 \n" +
             "========================\n" +
@@ -23,10 +23,11 @@ public class TextFormatter {
         if (matcher.matches()) {
             student = new Student(matcher.group(1),
                     matcher.group(2),
-                    Double.parseDouble(matcher.group(3)),
-                    Double.parseDouble(matcher.group(5)),
-                    Double.parseDouble(matcher.group(7)),
-                    Double.parseDouble(matcher.group(9)));
+                    matcher.group(3),
+                    Double.parseDouble(matcher.group(4)),
+                    Double.parseDouble(matcher.group(6)),
+                    Double.parseDouble(matcher.group(8)),
+                    Double.parseDouble(matcher.group(10)));
         }
         return student;
     }
